@@ -4,33 +4,37 @@ body {
     padding: 0;
 }
 
-.top{
+.top {
     height: 70px;
-    background-color: blue;  
+    background-color: blue;
     padding-top: 20px;
 }
-.guanli{
+
+.guanli {
     padding-left: 15px;
     color: white;
     font-size: 30px;
 }
 
-.top2{
+.top2 {
     padding-top: 10px;
     padding-left: 45px;
 }
-.hr{
-    color:rgb(139, 204, 248);
+
+.hr {
+    color: rgb(139, 204, 248);
 }
-.btn-chaxun{
+
+.btn-chaxun {
     margin-left: 15px;
     color: white;
     font-size: 18px;
     height: 40px;
     width: 75px;
     background-color: blue;
-    border-radius:8px;
+    border-radius: 8px;
 }
+
 .left {
     margin: 0;
     padding: 0;
@@ -48,19 +52,23 @@ table {
     margin-left: 20px;
     margin-top: 30px;
 }
-.title{
+
+.title {
     font-size: 23px;
     font-weight: 800;
     height: 50px;
 }
-.title2{
+
+.title2 {
     font-size: 20px;
 }
+
 table td {
     text-align: center;
     border: 1px solid grey;
 
 }
+
 .right {
     margin-top: 30px;
     font-size: 24px;
@@ -68,18 +76,22 @@ table td {
     margin-right: 15px;
     width: 600px;
 }
-.add{
+
+.add {
     font-size: 30px;
 }
+
 input {
     font-size: 24px;
-    margin-top:15px;
+    margin-top: 15px;
     padding-left: 10px;
 }
-.text{
+
+.text {
     width: 600px;
     height: 35px;
 }
+
 button {
     margin-top: 20px;
     color: white;
@@ -87,13 +99,27 @@ button {
     height: 40px;
     width: 75px;
     background-color: blue;
-    border-radius:8px;
+    border-radius: 8px;
 }
-span{
+
+.bt_js{
+    margin-top: -10px;
+    padding-left: 5px;
+    color: black;
+    font-size: 15px;
+    text-align: center;
+    height: 20px;
+    width: 20px;
+    background-color: rgb(205, 205, 223);
+    border-radius: 3px;
+}
+
+span {
     font-size: 24px;
     font-weight: 600;
 }
-.delete{
+
+.delete {
     margin-top: 5px;
     font-size: 18px;
     color: black;
@@ -101,4 +127,3 @@ span{
     width: 75px;
     background-color: rgb(199, 199, 211);
 }
-
