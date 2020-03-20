@@ -7,13 +7,17 @@ body {
 .top {
     height: 70px;
     background-color: blue;
-    padding-top: 20px;
+    padding-top: 15px;
 }
 
 .guanli {
     padding-left: 15px;
     color: white;
-    font-size: 30px;
+    font-size: 28px;
+}
+
+.cx{
+    width: 400px;
 }
 
 .top2 {
@@ -46,7 +50,7 @@ body {
 }
 
 table {
-    width: 1480px;
+    width: 1050px;
     border-collapse: collapse;
     margin-bottom: 20px;
     margin-left: 20px;
@@ -54,13 +58,13 @@ table {
 }
 
 .title {
-    font-size: 23px;
-    font-weight: 800;
+    font-size: 18px;
+    font-weight: 800px;
     height: 50px;
 }
 
 .title2 {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 table td {
@@ -73,8 +77,8 @@ table td {
     margin-top: 30px;
     font-size: 24px;
     float: right;
-    margin-right: 15px;
-    width: 600px;
+    margin-right: 25px;
+    width: 400px;
 }
 
 .add {
@@ -88,8 +92,9 @@ input {
 }
 
 .text {
-    width: 600px;
+    width: 400px;
     height: 35px;
+    font-size: 18px;
 }
 
 button {
@@ -103,27 +108,31 @@ button {
 }
 
 .bt_js{
-    margin-top: -10px;
+    margin-top: 0px;
     padding-left: 5px;
     color: black;
-    font-size: 15px;
-    text-align: center;
-    height: 20px;
-    width: 20px;
+    font-size: 18px;
+    height: 23px;
+    width: 23px;
     background-color: rgb(205, 205, 223);
     border-radius: 3px;
 }
 
 span {
     font-size: 24px;
-    font-weight: 600;
+    font-weight: 400px;
 }
 
 .delete {
     margin-top: 5px;
-    font-size: 18px;
+    font-size: 15px;
     color: black;
-    height: 40px;
-    width: 75px;
+    height: 30px;
+    width: 60px;
     background-color: rgb(199, 199, 211);
+}
+.all{
+    margin-left: 20px;
+    font-size: 18px;
+    font-weight: 800;
 }

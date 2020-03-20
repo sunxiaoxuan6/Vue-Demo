@@ -10,13 +10,13 @@
 
 <body>
     <!-- 顶部 -->
-    <div id="app">
+    <div id="app" @click="countAll">
         <div class="top">
             <span class="guanli">订单管理</span>
         </div>
         <div class="top2">
             <span>品牌：</span>
-            <input input type="text" placeholder="输入要查找的设备名称" v-model="search">
+            <input input class="cx" type="text" placeholder="输入要查找的设备名称" ref="search">
             <button @click="cxiphone" class="btn-chaxun">查询</button>
         </div><br>
         <hr class="hr" />
@@ -37,9 +37,9 @@
                         <td>{{iphone.brands}}</td>
                         <td>{{iphone.date | yyyyMMdd}}</td>
                         <td>{{iphone.prices}}</td>
-                        <td><button class="bt_js" @click="add">+</button>
-                            {{iphone.numbers}}
-                            <button class="bt_js" @click="sub">-</button></td>
+                        <td><button class="bt_js" @click="add(index)">+</button>
+                            <a v-text="iphone.numbers"></a>
+                            <button class="bt_js" @click="sub(index)">-</button></td>
                         <td>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
                             <button class="delete" @click="del(index)">删除</button>
                         </td>
@@ -47,6 +47,7 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="all">订单总额：{{all}}元</div>
         </div>
 
         <!-- 右 -->
@@ -72,44 +73,54 @@
             data: {
                 iphone: [{
                     brands: '',
-                    date:new Date(),
+                    date: '',
                     prices: '',
                     numbers: '',
                 }],
-                iphones: [{
-                    brands: '苹果',
-                    date: new Date(),
-                    prices: '4999',
-                    numbers: '5',
-                }],
+                iphones: [],
+                cx_iphone: [],
                 search: '',
                 searchData: '',
+                all: 0
             },
             methods: {
                 // 添加
                 tijiao: function () {
-                    this.iphone.date=new Date();
+                    this.iphone.date = new Date();
                     this.iphones.push(this.iphone);
                     this.iphone = {};
                 },
                 del: function (index) {
                     this.iphones.splice(index, 1);
                 },
-                add:function(){
-                    this.iphone.numbers++;
+                add(index) {
+                    this.iphones[index].numbers++;
                 },
-                sub:function(){
-                    this.iphone.numbers--;
+                sub(index) {
+                    if (this.iphones[index].numbers > 0) {
+                        this.iphones[index].numbers--;
+                    }
                 },
-                cxiphone: function () {
-                   
+                countAll() {
+                    let all = 0;
+                    for (let i in this.iphones) {
+                        let number = this.iphones[i].numbers;
+                        let money = this.iphones[i].prices;
+                        all += number * money;
+                    }
+                    this.all = all;
+                },
+                cxiphone() {
+                    let brand = this.$refs.search.value;
+                    this.cx_iphone = [];
+                    for (let i in this.iphone) {
+                        let n = this.iphone[i].brands;
+                        if (brand === n) {
+                            this.cx_iphone.push(this.iphone[i]);
+                        }
+                    }
+                    this.iphone = this.cx_iphone;
                 }
-                // 查询
-                // computed: {
-                //    
-                //     }
-
-                // },
             }
         })
 
