@@ -16,7 +16,7 @@
         </div>
         <div class="top2">
             <span>品牌：</span>
-            <input input class="cx" type="text" placeholder="输入要查找的设备名称" ref="search">
+            <input input class="cx" type="text" placeholder="输入要查找的设备名称" v-model="search">
             <button @click="cxiphone" class="btn-chaxun">查询</button>
         </div><br>
         <hr class="hr" />
@@ -77,7 +77,12 @@
                     numbers: '',
                 }],
                 iphones: [],
-                cx_iphone: [],
+                cx_iphone: [{
+                    brands: '',
+                    date: '',
+                    prices: '',
+                    numbers: '',
+                }],
                 search: '',
                 all: 0
             },
@@ -108,16 +113,16 @@
                     }
                     this.all = all;
                 },
-                cxiphone() {
-                    let brand = this.$refs.search.value;
+                cxiphone:function() {
+                    var brand = this.search;
                     this.cx_iphone = [];
-                    for (let i in this.iphone) {
-                        let n = this.iphone[i].brands;
+                    for (let i in this.iphones) {
+                        var n = this.iphones[i].brands;
                         if (brand === n) {
-                            this.cx_iphone.push(this.iphone[i]);
+                            this.cx_iphone.push(this.iphones[i]);
                         }
                     }
-                    this.iphone = this.cx_iphone;
+                    this.iphones = this.cx_iphone;
                 }
             }
         })
