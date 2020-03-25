@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./css/demo4.css">
+</head>
+
+<body>
+    <!-- 顶部 -->
+    <div id="app" @click="countAll">
+        <div class="top">
+            <span class="guanli">购物车</span>
+        </div>
+        <div class="top2">
+            <span>商品：</span>
+            <input input class="cx" type="text" placeholder="输入要查找的设备名称" v-model="search">
+            <button @click="cxiphone" class="btn-chaxun">查询</button>
+        </div><br>
+        <hr class="hr" />
+        <!-- 左 -->
+        <div class="left">
+            <table>
+                <tbody>
+                    <tr class="title">
+                        <td>商品</td>
+                        <td>生产日期</td>
+                        <td>单价</td>
+                        <td>购买数量</td>
+                        <td>操作</td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr class="title2" v-for="(iphone, index) in iphones">
+                        <td>{{iphone.brands}}</td>
+                        <td>{{iphone.date | yyyyMMdd}}</td>
+                        <td>{{iphone.prices}}</td>
+                        <td><button class="bt_js" @click="add(index)">+</button>
+                            <a v-text="iphone.numbers"></a>
+                            <button class="bt_js" @click="sub(index)">-</button></td>
+                        <td>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
+                            <button class="delete" @click="del(index)">删除</button>
+                        </td>
+                    </tr><br>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="all">订单总额：{{all}}元</div>
+        </div>
+
+        <!-- 右 -->
+        <div class="right">
+            <span class="add">新增订单</span><br>
+            <hr /><br>
+            <span>品牌</span><br>
+            <input class="text" type="text" v-model="iphone.brands" placeholder="如：笔记本，手机"><br>
+            <span>价格</span><br>
+            <input class="text" type="text" v-model="iphone.prices" placeholder="如：50"><br>
+            <span>数量</span><br>
+            <input class="text" type="text" v-model="iphone.numbers" placeholder="如：5"><br>
+            <button @click="tijiao">提交</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                iphone: [{
+                    brands: '',
+                    date: '',
+                    prices: '',
+                    numbers: '',
+                }],
+                iphones: [],
+                cx_iphone: [{
+                    brands: '',
+                    date: '',
+                    prices: '',
+                    numbers: '',
+                }],
+                search: '',
+                all: 0
+            },
+            methods: {
+                // 添加
+                tijiao: function () {
+                    this.iphone.date = new Date();
+                    this.iphones.push(this.iphone);
+                    this.iphone = {};
+                },
+                del: function (index) {
+                    this.iphones.splice(index, 1);
+                },
+                add(index) {
+                    this.iphones[index].numbers++;
+                },
+                sub(index) {
+                    if (this.iphones[index].numbers > 0) {
+                        this.iphones[index].numbers--;
+                    }
+                },
+                countAll() {
+                    let all = 0;
+                    for (let i in this.iphones) {
+                        let number = this.iphones[i].numbers;
+                        let money = this.iphones[i].prices;
+                        all += number * money;
+                    }
+                    this.all = all;
+                },
+                cxiphone:function() {
+                    var brand = this.search;
+                    this.cx_iphone = [];
+                    for (let i in this.iphones) {
+                        var n = this.iphones[i].brands;
+                        if (brand === n) {
+                            this.cx_iphone.push(this.iphones[i]);
+                        }
+                    }
+                    this.iphones = this.cx_iphone;
+                }
+            }
+        })
+
+        // Vue.filter("dateFormat", function (value, format) {
+        //     let date = {
+        //         "M+": value.getMonth() + 1,
+        //         "d+": value.getDate,
+        //         "h+": value.getHours,
+        //         "m+": value.getMinutes,
+        //         "s+": value.getSeconds,
+        //     }
+        //     if (/(y+)/.test(format)) {
+        //         format = format.replace(RegExp.$1, (value.getFullYear() + "").substr(4 - RegExp.$1.length));
+        //         for (let k in date) {
+        //             if (new RegExp(`(${k})`).test(format)) {
+        //                 format = format.replace(RegExp.$1, (RegExp.$1.length == 1) ?
+        //                     (date[k]) : (("00" + date[k]).substr(("" + date[k]).length)))
+        //             }
+        //         }
+        //         return format;
+        //     }
+        // })
+        Vue.filter("yyyyMMdd", function (date) {
+            let dt = new Date(date);
+            let y = dt.getFullYear();
+            let m = (dt.getMonth() + 1).toString().padStart(2, '0');
+            let d = dt.getDate().toString().padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        })
+    </script>
+</body>
+
+</html>
