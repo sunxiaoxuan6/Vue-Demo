@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<script src="js/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+	<style>
+		* {
+			outline: none !important;
+			-webkit-font-smoothing: antialiased;
+			font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+		}
+
+		#input-content {
+			width: 400px;
+			margin: 0 auto;
+			overflow: overlay;
+			display: block;
+			padding: 50px;
+			background-color: white;
+		}
+
+		#table-content {
+			margin: 0 auto;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<header-bar v-on:add-good="addGood" v-on:delete-good="deleteGood" :goods='goods'></header-bar>
+	</div>
+</body>
+
+<template id="header-bar">
+	<el-tabs v-model="activeName" @tab-click="handleClick">
+		<el-tab-pane label="订单信息" name="first">
+			<div id="info-content">
+				<table-layout v-bind="$attrs" v-on='$listeners'></table-layout>
+			</div>
+		</el-tab-pane>
+		<el-tab-pane label="添加订单" name="second">
+			<div id="add-order-content">
+				<input-layout v-on='$listeners'>
+				</input-layout>
+			</div>
+		</el-tab-pane>
+	</el-tabs>
+</template>
+<template id="input-layout">
+	<div id="input-content">
+		<el-form ref="form" label-width="80px">
+			<el-form-item label="手机品牌">
+				<el-input v-model="form.name" size="medium" placeholder="如华为,小米等"></el-input>
+			</el-form-item>
+			<el-form-item label="单个价格">
+				<el-input-number v-model="form.price" :min="1" label="价格"></el-input-number>
+			</el-form-item>
+
+			<el-form-item label="数量">
+				<el-input-number v-model="form.num" :min="1" label="价格"></el-input-number>
+			</el-form-item>
+
+			<el-form-item>
+				<el-button type="primary" @click="onSubmit">确认</el-button>
+				<el-button>取消</el-button>
+			</el-form-item>
+		</el-form>
+	</div>
+</template>
+<template id="table-layout">
+	<div id="table-content">
+		<el-table border :data="mgoods">
+			<el-table-column prop="time" label="日期" width="150">
+			</el-table-column>
+			<el-table-column prop="brand" label="品牌" width="120">
+			</el-table-column>
+			<el-table-column prop="price" label="价格" width="120">
+			</el-table-column>
+			<el-table-column prop="num" label="数量">
+			</el-table-column>
+			<el-table-column label="操作" width="100">
+				<template slot-scope="scope">
+					<el-button type="text" @click="deleteClick(scope.$index)">删除</el-button>
+				</template>
+			</el-table-column>
+		</el-table>
+	</div>
+
+</template>
+
+<script>
+	//数据录入
+	const inputLayout = {
+		data() {
+			return {
+				form: {
+					name: '',
+					price: 99,
+					num: 100
+				}
+			}
+		},
+		template: '#input-layout',
+		methods: {
+			onSubmit() {
+				console.log('submit!');
+
+				let date = new Date();
+				let y = date.getFullYear();
+				let m = (date.getMonth() + 1).toString().padStart(2, '0');
+				let d = date.getDate().toString().padStart(2, '0');
+				let newTime = `${y}-${m}-${d}`;
+
+				if (this.form.num > 0 && this.form.price > 0 && this.form.name != undefined && this.form.name != '' && this.form.name !=
+					null) {
+					let good = {
+						brand: this.form.name,
+						time: nowTime,
+						price: this.form.price,
+						num: this.form.num
+					}
+					this.$emit('add-good', good)
+
+				} else {
+					this.$notify({
+						title: '警告',
+						message: '数据非法',
+						type: 'warning'
+					});
+				}
+			}
+		}
+	}
+
+	//列表信息
+	const tableLayout = {
+
+		inheritAttrs: false,
+		data() {
+			return {
+				mgoods: [],
+				selectIndex: 0,
+				selectGood: {}
+			}
+		},
+		mounted: function () {
+			console.log(this.$attrs)
+			this.mgoods = [].concat(this.$attrs.goods)
+		},
+		props: ['good'],
+		methods: {
+
+			deleteClick: function (index) {
+				this.mgoods.splice(index, 1)
+				this.$emit('delete-good', index)
+			}
+		},
+		template: '#table-layout',
+		watch: {
+			$attrs: function () {
+				this.mgoods = [].concat(this.$attrs.goods)
+			},
+			selectIndex: function () {
+				console.log(this.mgoods[this.selectIndex])
+				this.selectGood = this.mgoods[this.selectIndex]
+				console.log(this.selectGood)
+			}
+		},
+		filters: {
+			formatTime: function (times) {
+				var dt = new Date(times);
+				let y = dt.getFullYear();
+				let m = (dt.getMonth() + 1).toString().padStart(2, '0');
+				let d = dt.getDate().toString().padStart(2, '0');
+				return `${y}-${m}-${d}`;
+			}
+		}
+
+	}
+
+	const headerBar = {
+		data() {
+			return {
+				activeName: 'second'
+			};
+		},
+		mounted: function () {
+			console.log(this.$attrs)
+		},
+		methods: {
+			handleClick(tab, event) {
+				console.log(this.activeName)
+				console.log(tab, event);
+			}
+		},
+		template: '#header-bar',
+		components: {
+			'input-layout': inputLayout,
+			'table-layout': tableLayout
+		}
+	};
+	new Vue({
+		el: '#app',
+		data: {
+			goods: [],
+		},
+		components: {
+			'header-bar': headerBar,
+			'input-layout': inputLayout
+		},
+		methods: {
+			addGood: function (good) {
+				this.goods.push(good)
+				console.log(this.goods)
+				this.$notify({
+					title: '成功',
+					message: '数据添加成功',
+					type: 'success'
+				});
+			},
+			deleteGood: function (index) {
+				this.goods.splice(index, 1)
+				this.$message('删除成功!');
+			}
+		}
+	})
+</script>
+
+</html>

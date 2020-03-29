@@ -245,7 +245,6 @@ Vue.component('cart',{
     'cart-total':Total
   },
   template:`
-
   <div  class="cart">
         <cart-title :username ='username'></cart-title>
         <cart-list :list='list' @cart-del='deleteCart($event)' @change-num="changeNum"></cart-list>
